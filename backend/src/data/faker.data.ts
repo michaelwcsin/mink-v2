@@ -4,6 +4,9 @@ import Customer from "../models/customer.model";
 import Manager from "../models/manager.model";
 import Restaurant from "../models/restaurant.model";
 
+// ! npx ts-node faker.data.ts
+// TODO: Create data for menu items & orders (orders be generated through web app)
+
 const connectDB = async () => {
   try {
     await mongoose.connect("mongodb://localhost:27017/minkDB");
