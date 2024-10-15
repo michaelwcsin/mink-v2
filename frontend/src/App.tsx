@@ -1,9 +1,19 @@
-import { Button } from "./components/ui/button";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import CustomerPage from "../Pages/CustomerPage/CustomerPage";
+import LoginPage from "../Pages/LoginPage/LoginPage";
+import ManagerPage from "../Pages/ManagerPage/ManagerPage";
 
-export default function App() {
+const App = () => {
   return (
-    <div>
-      <Button>ClickMe</Button>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" index element={<Navigate to="/login" />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/customer" element={<CustomerPage />} />
+        <Route path="/manager" element={<ManagerPage />} />
+      </Routes>
+    </BrowserRouter>
   );
-}
+};
+
+export default App;
