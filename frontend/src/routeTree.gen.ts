@@ -13,23 +13,35 @@ import { createFileRoute } from '@tanstack/react-router'
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as ManagerIndexImport } from './routes/manager/index'
+import { Route as CustomerIndexImport } from './routes/customer/index'
 
 // Create Virtual Routes
 
-const AboutLazyImport = createFileRoute('/about')()
+const LoginLazyImport = createFileRoute('/login')()
 const IndexLazyImport = createFileRoute('/')()
 
 // Create/Update Routes
 
-const AboutLazyRoute = AboutLazyImport.update({
-  path: '/about',
+const LoginLazyRoute = LoginLazyImport.update({
+  path: '/login',
   getParentRoute: () => rootRoute,
-} as any).lazy(() => import('./routes/about.lazy').then((d) => d.Route))
+} as any).lazy(() => import('./routes/login.lazy').then((d) => d.Route))
 
 const IndexLazyRoute = IndexLazyImport.update({
   path: '/',
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/index.lazy').then((d) => d.Route))
+
+const ManagerIndexRoute = ManagerIndexImport.update({
+  path: '/manager/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const CustomerIndexRoute = CustomerIndexImport.update({
+  path: '/customer/',
+  getParentRoute: () => rootRoute,
+} as any)
 
 // Populate the FileRoutesByPath interface
 
@@ -42,11 +54,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexLazyImport
       parentRoute: typeof rootRoute
     }
-    '/about': {
-      id: '/about'
-      path: '/about'
-      fullPath: '/about'
-      preLoaderRoute: typeof AboutLazyImport
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginLazyImport
+      parentRoute: typeof rootRoute
+    }
+    '/customer/': {
+      id: '/customer/'
+      path: '/customer'
+      fullPath: '/customer'
+      preLoaderRoute: typeof CustomerIndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/manager/': {
+      id: '/manager/'
+      path: '/manager'
+      fullPath: '/manager'
+      preLoaderRoute: typeof ManagerIndexImport
       parentRoute: typeof rootRoute
     }
   }
@@ -56,37 +82,47 @@ declare module '@tanstack/react-router' {
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexLazyRoute
-  '/about': typeof AboutLazyRoute
+  '/login': typeof LoginLazyRoute
+  '/customer': typeof CustomerIndexRoute
+  '/manager': typeof ManagerIndexRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexLazyRoute
-  '/about': typeof AboutLazyRoute
+  '/login': typeof LoginLazyRoute
+  '/customer': typeof CustomerIndexRoute
+  '/manager': typeof ManagerIndexRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexLazyRoute
-  '/about': typeof AboutLazyRoute
+  '/login': typeof LoginLazyRoute
+  '/customer/': typeof CustomerIndexRoute
+  '/manager/': typeof ManagerIndexRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about'
+  fullPaths: '/' | '/login' | '/customer' | '/manager'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about'
-  id: '__root__' | '/' | '/about'
+  to: '/' | '/login' | '/customer' | '/manager'
+  id: '__root__' | '/' | '/login' | '/customer/' | '/manager/'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexLazyRoute: typeof IndexLazyRoute
-  AboutLazyRoute: typeof AboutLazyRoute
+  LoginLazyRoute: typeof LoginLazyRoute
+  CustomerIndexRoute: typeof CustomerIndexRoute
+  ManagerIndexRoute: typeof ManagerIndexRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexLazyRoute: IndexLazyRoute,
-  AboutLazyRoute: AboutLazyRoute,
+  LoginLazyRoute: LoginLazyRoute,
+  CustomerIndexRoute: CustomerIndexRoute,
+  ManagerIndexRoute: ManagerIndexRoute,
 }
 
 export const routeTree = rootRoute
@@ -102,14 +138,22 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
-        "/about"
+        "/login",
+        "/customer/",
+        "/manager/"
       ]
     },
     "/": {
       "filePath": "index.lazy.tsx"
     },
-    "/about": {
-      "filePath": "about.lazy.tsx"
+    "/login": {
+      "filePath": "login.lazy.tsx"
+    },
+    "/customer/": {
+      "filePath": "customer/index.tsx"
+    },
+    "/manager/": {
+      "filePath": "manager/index.tsx"
     }
   }
 }

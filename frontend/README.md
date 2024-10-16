@@ -1,5 +1,7 @@
 TODO:
 
+Tanstack Router: https://tanstack.com/router/latest
+
 - Login screen
 
   - Directs to customer or manager state
