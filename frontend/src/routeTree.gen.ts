@@ -18,15 +18,9 @@ import { Route as CustomerIndexImport } from './routes/customer/index'
 
 // Create Virtual Routes
 
-const LoginLazyImport = createFileRoute('/login')()
 const IndexLazyImport = createFileRoute('/')()
 
 // Create/Update Routes
-
-const LoginLazyRoute = LoginLazyImport.update({
-  path: '/login',
-  getParentRoute: () => rootRoute,
-} as any).lazy(() => import('./routes/login.lazy').then((d) => d.Route))
 
 const IndexLazyRoute = IndexLazyImport.update({
   path: '/',
@@ -54,13 +48,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexLazyImport
       parentRoute: typeof rootRoute
     }
-    '/login': {
-      id: '/login'
-      path: '/login'
-      fullPath: '/login'
-      preLoaderRoute: typeof LoginLazyImport
-      parentRoute: typeof rootRoute
-    }
     '/customer/': {
       id: '/customer/'
       path: '/customer'
@@ -82,14 +69,12 @@ declare module '@tanstack/react-router' {
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexLazyRoute
-  '/login': typeof LoginLazyRoute
   '/customer': typeof CustomerIndexRoute
   '/manager': typeof ManagerIndexRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexLazyRoute
-  '/login': typeof LoginLazyRoute
   '/customer': typeof CustomerIndexRoute
   '/manager': typeof ManagerIndexRoute
 }
@@ -97,30 +82,27 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexLazyRoute
-  '/login': typeof LoginLazyRoute
   '/customer/': typeof CustomerIndexRoute
   '/manager/': typeof ManagerIndexRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/login' | '/customer' | '/manager'
+  fullPaths: '/' | '/customer' | '/manager'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/login' | '/customer' | '/manager'
-  id: '__root__' | '/' | '/login' | '/customer/' | '/manager/'
+  to: '/' | '/customer' | '/manager'
+  id: '__root__' | '/' | '/customer/' | '/manager/'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexLazyRoute: typeof IndexLazyRoute
-  LoginLazyRoute: typeof LoginLazyRoute
   CustomerIndexRoute: typeof CustomerIndexRoute
   ManagerIndexRoute: typeof ManagerIndexRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexLazyRoute: IndexLazyRoute,
-  LoginLazyRoute: LoginLazyRoute,
   CustomerIndexRoute: CustomerIndexRoute,
   ManagerIndexRoute: ManagerIndexRoute,
 }
@@ -138,16 +120,12 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
-        "/login",
         "/customer/",
         "/manager/"
       ]
     },
     "/": {
       "filePath": "index.lazy.tsx"
-    },
-    "/login": {
-      "filePath": "login.lazy.tsx"
     },
     "/customer/": {
       "filePath": "customer/index.tsx"
