@@ -28,3 +28,15 @@ TODO:
     - View sale analytics
       - Total revenue
       - Items sold
+
+WebFlow State
+Login (Toggle or button for either customer/manager)
+
+- Customer:
+  - Restaurant select page (Navbar with exit/update profile etc)
+    - Restaurant info + menu items
+      - Selection of items
+        - Checkout
+          - Await orders
+- Manager:
+  - Dashboard (sidebar menu update, analytics, incoming orders)
